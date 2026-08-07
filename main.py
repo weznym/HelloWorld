@@ -5,14 +5,15 @@ def hello_world():
     return "hello world"
 
 
-def greeting():
+def greeting(name="Wesley"):
     hour = datetime.now().hour
     if hour < 12:
-        return "Good Morning"
+        salutation = "Good Morning"
     elif hour < 18:
-        return "Good Afternoon"
+        salutation = "Good Afternoon"
     else:
-        return "Good Evening"
+        salutation = "Good Evening"
+    return f"{salutation} {name}"
 
 
 if __name__ == "__main__":
