@@ -5,7 +5,7 @@ def hello_world():
     return "hello world"
 
 
-def greeting(name="Wesley"):
+def greeting(name="Welly"):
     hour = datetime.now().hour
     if hour < 12:
         salutation = "Good Morning"
