@@ -22,18 +22,18 @@ def greeting(name="Welly"):
 def get_weather(city="Dallas"):
     """Fetch current weather for `city` from wttr.in and return a short string.
 
-    Uses no API key. Returns 'temp°C, description' or an error message.
+    Uses no API key. Returns 'temp°F, description' or an error message.
     """
     url = f"https://wttr.in/{urllib.parse.quote(city)}?format=j1"
     try:
         with urllib.request.urlopen(url, timeout=10) as resp:
             data = json.load(resp)
         current = data.get("current_condition", [{}])[0]
-        temp_c = current.get("temp_C", "N/A")
+        temp_f = current.get("temp_F", "N/A")
         desc = ""
         if current.get("weatherDesc"):
             desc = current["weatherDesc"][0].get("value", "")
-        return f"{temp_c}°C, {desc}"
+        return f"{temp_f}°F, {desc}"
     except Exception as e:
         return f"unavailable ({e})"
 
