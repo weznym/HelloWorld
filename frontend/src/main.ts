@@ -8,7 +8,7 @@ if (!app) {
 
 const backendBase = 'http://127.0.0.1:8000'
 const defaultCity = 'Dallas'
-const defaultName = 'Welly'
+const defaultName = 'Wesley'
 
 const getGreeting = async (name = defaultName) => {
   const response = await fetch(`${backendBase}/api/greeting?name=${encodeURIComponent(name)}`)
@@ -31,13 +31,6 @@ const render = async () => {
       <section class="card greeting-card">
         <p class="eyebrow">Personal greeting</p>
         <h1>${greeting}</h1>
-        <form id="profile-form" class="name-form">
-          <label for="name-input">Change your name</label>
-          <div class="input-row">
-            <input id="name-input" name="name" type="text" value="${defaultName}" placeholder="Enter name" />
-            <button type="submit">Update</button>
-          </div>
-        </form>
       </section>
 
       <section class="card weather-card">
@@ -59,19 +52,8 @@ const render = async () => {
     </main>
   `
 
-  const form = document.querySelector<HTMLFormElement>('#profile-form')
-  const nameInput = document.querySelector<HTMLInputElement>('#name-input')
-  const heading = document.querySelector<HTMLHeadingElement>('h1')
   const citySelect = document.querySelector<HTMLSelectElement>('#city-select')
   const weatherTemp = document.querySelector<HTMLSpanElement>('.weather-temp')
-
-  form?.addEventListener('submit', async (event) => {
-    event.preventDefault()
-
-    const name = nameInput?.value.trim() || defaultName
-    const greetingText = await getGreeting(name)
-    heading!.textContent = greetingText
-  })
 
   citySelect?.addEventListener('change', async (event) => {
     const selectedCity = (event.target as HTMLSelectElement).value

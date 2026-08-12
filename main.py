@@ -5,7 +5,7 @@ import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlparse
 
-DEFAULT_NAME = "Welly"
+DEFAULT_NAME = "Wesley"
 DEFAULT_CITY = "Dallas"
 
 
