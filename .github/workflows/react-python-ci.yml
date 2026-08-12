@@ -1,0 +1,50 @@
+name: React + Python CI
+
+on:
+  push:
+    branches:
+      - main
+      - update-greeting-ci
+  pull_request:
+    branches:
+      - main
+      - update-greeting-ci
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install frontend dependencies
+        run: npm ci
+      - name: Build frontend
+        run: npm run build
+
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Validate Python syntax
+        run: python -m py_compile main.py
+      - name: Smoke test backend endpoints
+        run: |
+          python main.py >/tmp/app.log 2>&1 &
+          sleep 5
+          python - <<'PY'
+import json, urllib.request
+print(json.loads(urllib.request.urlopen('http://127.0.0.1:8000/api/greeting?name=Welly').read().decode()))
+print(json.loads(urllib.request.urlopen('http://127.0.0.1:8000/api/weather?city=Dallas').read().decode()))
+PY
